@@ -1,0 +1,126 @@
+#include <iostream> 
+#include <math.h> 
+
+//Вариант 3 (f1) и 32 (f2)
+
+using namespace std;
+double f1(double x)
+{
+    double time_t;
+    time_t = pow(x + pow(x, 3), 1 / 2);
+    return time_t;
+}
+double f2(double x, double y)
+{
+    double t = 4 - pow(x, 2) - pow(y, 2);
+    return t;
+}
+double hx(double a, double b, double N)
+{
+    double x = (b - a) / (2 * N);
+    return x;
+}
+double hy(double c, double d, double M)
+{
+    double x = (d - c) / (2 * M);
+    return x;
+}
+double xi(double a, int i, double hx)
+{
+    return a + i * hx;
+}
+double yj(double b, int j, double hy)
+{
+    return b + j * hy;
+}
+
+double Trap(double a, double b, int n)
+{
+    double h = (b - a) / n, x1 = 0;
+    for (int i = 0; i <= n; ++i)
+    {
+        x1 += f1(a + h * i);
+    }
+    return h / 2 * (f1(a) + f1(b) + 2 * x1);
+}
+
+double Simpson(double a, double b, int n)
+{
+    double h, x1 = 0, x2 = 0;
+    h = (b - a) / n;
+    for (int i = 0; i <= n; ++i)
+    {
+        if (i % 2 == 0)
+            x1 += f1(a + h * i);
+        if (i % 2 == 1)
+            x2 += f1(a + h * (i + 1));
+    }
+    return h / 3 * (f1(a) - f1(b) + 4 * x2 + 2 * x1);
+}
+
+double DoubIntegral(double a, double b, double c, double d, int M, int N)
+{
+    double I = (hx(a, b, N) * hy(c, d, M)) / 9, sum = 0, res = 0;
+    for (int i = 1; i < N; i++)
+    {
+        for (int j = 1; j < M; j++)
+        {
+            sum += f2(xi(a, 2 * i, hx(a, b, N)), yj(c, 2 * j, hy(c, d, M)))
+                + 4 * f2(xi(a, (2 * i) + 1, hx(a, b, N)), yj(c, 2 * j, hy(c, d, M)))
+                + f2(xi(a, (2 * i) + 2, hx(a, b, N)), yj(c, 2 * j, hy(c, d, M)))
+                + 4 * f2(xi(a, (2 * i), hx(a, b, N)), yj(c, (2 * j) + 1, hy(c, d, M)))
+                + 16 * f2(xi(a, (2 * i) + 1, hx(a, b, N)), yj(c, (2 * j) + 1, hy(c, d, M)))
+                + 4 * f2(xi(a, (2 * i) + 2, hx(a, b, N)), yj(c, (2 * j) + 1, hy(c, d, M)))
+                + f2(xi(a, 2 * i, hx(a, b, N)), yj(c, (2 * j) + 2, hy(c, d, M)))
+                + 4 * f2(xi(a, (2 * i) + 1, hx(a, b, N)), yj(c, (2 * j) + 2, hy(c, d, M)))
+                + f2(xi(a, (2 * i) + 2, hx(a, b, N)), yj(c, (2 * j) + 2, hy(c, d, M)));
+
+        }
+
+    }
+    res += I * sum;
+    return res;
+}
+
+
+int main()
+{  
+    double eps = 0.00001, a = 0.6, b = 1.724;
+    int p = 0, n = 2;
+    cout << "Select operation (number):" << "\n" << "1. Trapezoidal formula" << "\n" << "2. Simpson formula" << "\n" << "3. Simpson cubator formula" << "\n";
+    cin >> p;
+    if (p == 1)
+    {
+        double Integ1, Integ2;
+        Integ1 = Trap(a, b, n);
+        do {
+            Integ2 = Integ1;
+            n *= 2;
+            Integ1 = Trap(a, b, n);
+        } while (abs(Integ1 - Integ2) >= 3 * eps);
+        cout << "Integral: " << Integ1;
+    }
+    if (p == 2)
+    {
+        double Integ1, Integ2;
+        Integ1 = Simpson(a, b, n);
+        do {
+            Integ2 = Integ1;
+            n *= 2;
+            Integ1 = Simpson(a, b, n);
+        } while (abs(Integ1 - Integ2) >= 15 * eps);
+        cout << "Integral: " << Integ1;
+    }
+    if (p == 3)
+    {
+        double a = -1, b = 1, c = -1, d = 1;
+        int M, N;
+        cout << "Input M:" << "\n";
+        cin >> M;
+        cout << "Input N:" << "\n";
+        cin >> N;
+        double res = DoubIntegral(a, b, c, d, M, N);
+        cout << "Integral:" << res << endl;
+
+    }
+}
