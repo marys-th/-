@@ -3,6 +3,8 @@
 #include <iomanip>
 using namespace std;
 
+//(хк+1 , ук+1)= (хк , ук)- f(xk , ук)/f ’(xk , ук). 
+
 double func1(double* x)
 {
     return x[0] * x[0] * x[0] - x[1] * x[1] - 1;
