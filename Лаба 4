@@ -137,10 +137,7 @@ int main()
 		powerx[i] = sum_pow(x, N, i + 1);
 	}
 
-	for (int i = 0; i < 2 * m; i++)
-	{
-		cout << powerx[i] << endl;
-	}
+
 //4
 	double** sumx = new double*[m + 1];
 	for (int i = 0; i < m + 1; i++)
