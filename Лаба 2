@@ -127,8 +127,19 @@ void newton(double* sol, double** Jac)
         {
             d1max = f2;
         }
-        x1 = abs((sol[0] - x1)/sol[0]);
-        x2 = abs((sol[1] - x2)/sol[1]);
+
+         if (sol[0] < 1)
+        {
+            x1 = abs(sol[0] - x1);
+        }
+        else x1 = abs((sol[0] - x1) / sol[0]);
+        
+        if (sol[1] < 1)
+        {
+            x2 = abs(sol[1] - x2);
+        }
+        else x2 = abs((sol[1] - x2) / sol[1]);
+
         d2max = x1;
         if (x2 > x1)
         {
@@ -178,8 +189,19 @@ void newton(double* sol, double** Jac,double M)
         {
             d1max = f2;
         }
-        x1 = abs((sol[0] - x1)/sol[0]);
-        x2 = abs((sol[1] - x2)/sol[1]);
+
+         if (sol[0] < 1)
+        {
+            x1 = abs(sol[0] - x1);
+        }
+        else x1 = abs((sol[0] - x1) / sol[0]);
+        
+        if (sol[1] < 1)
+        {
+            x2 = abs(sol[1] - x2);
+        }
+        else x2 = abs((sol[1] - x2) / sol[1]);
+
         d2max = x1;
         if (x2 > x1)
         {
