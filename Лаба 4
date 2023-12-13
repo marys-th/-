@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <math.h>
 
+
 using namespace std;
 
 double sum_pow(double* x,int n, int k)
@@ -181,20 +182,21 @@ int main()
 	
 
 //7
-	double s = 1 / (N - m), us = 0, ks = 0;
+	double s =0, us = 0, ks = 0;
 	for (int i = 0; i < N; i++)
 	{
 		ks = y[i];
 		for (int j = 0; j < m + 1; j++)
 			ks -= a[j] * pow(x[i], j);
-		ks *= ks;
+		ks = pow(ks, 2);
 		us += ks;
 	}
-
-	s *= us;
-	s *= s;
+	double r = N - m - 1;
+	s = (1/r)* us;
+	//cout << s<< endl<< us<< endl;
+	
 	s = pow(s, 0.5);
-	cout << setprecision(50) << fixed << "q = " << s << endl;
+	cout << setprecision(50) << "q = " << s << endl;
 
 
 	delete[]p;
@@ -205,8 +207,6 @@ int main()
 	delete[]prav;
 	for (int i = 0; i < m + 1; i++)
 		delete[] sumx[i];
-
-
 
 }
 
